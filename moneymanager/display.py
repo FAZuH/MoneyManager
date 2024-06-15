@@ -23,7 +23,7 @@ def must_get_input[T](prompt: str, type_strategy: Callable[[str], T]) -> T:
     input parseable by type_strategy, then returning the parsed value.
 
     Args:
-        inpt (str): The user input to parse by type_strategy
+        prompt (str): The message to show to the user while asking for an input
         type_strategy (Callable[[str], T]): Callable that accepts a string as an argument, and returns any type 'T'
 
     Returns:
