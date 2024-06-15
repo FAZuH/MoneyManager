@@ -6,7 +6,6 @@ class Transaction:
 # no;date;account;amount;type;category;comment
     def __init__(
         self,
-        no: int,
         date: datetime,
         account: str,
         amount: float,
@@ -14,7 +13,6 @@ class Transaction:
         category: str,
         comment: str
     ) -> None:
-        self.no = no
         self.date = date
         self.account = account
         self.amount = amount

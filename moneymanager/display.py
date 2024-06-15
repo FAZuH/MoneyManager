@@ -61,29 +61,28 @@ def input_main() -> int:
     parsed_input = must_get_input(inpt, int)
     return parsed_input
 
-def input_expense() -> int | None:
-    print("Type cancel to cancel")
-    inpt = exittable_input('> ')
-
-    if inpt == "cancel":
-        return
+def input_expense() -> Transaction | None:
+    account = must_get_input("Input account: ", str)
+    category = must_get_input("Input category: ", str)
+    inpt = must_get_input("Input expenses: ", int)
+    comment = must_get_input("Input comment: ", str)
+    transaction = Transaction(datetime.now(), account, inpt, "expense", category, comment)
 
     # TODO:
     # ask for: no;date;account;amount;type;category;comment
-    parsed_input = must_get_input(inpt, int)
-    return parsed_input
+    return transaction
     
 def input_income() -> int | None:
-    print("Type cancel to cancel")
-    inpt = exittable_input('> ')
-
-    if inpt == "cancel":
-        return
+    account = must_get_input("Input account: ", str)
+    category = must_get_input("Input category: ", str)
+    inpt = must_get_input("Input expenses: ", int)
+    comment = must_get_input("Input comment: ", str)
+    transaction = Transaction(datetime.now(), account, inpt, "income", category, comment)
 
     # TODO:
     parsed_input = must_get_input(inpt, int)
-    return parsed_input
-    
+    return transaction
+
 def view_account_balance(name: str, balance: int):
     print(
         "Account Balance"
