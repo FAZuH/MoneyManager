@@ -4,10 +4,11 @@ from typing import Callable
 def ask(prompt: str) -> str:
     """Asks the user for an input. Exits the program if the input is 'exit'
 
-    Parameters
-    ----------
-    prompt : str
-        The message to show to the user while asking for an input
+    Args:
+        prompt (str): The message to show to the user while asking for an input
+
+    Returns:
+        str: The user's input
     """
     inpt = input(prompt)
     if inpt == "exit":
@@ -18,17 +19,12 @@ def must_get_input[T](prompt: str, type_strategy: Callable[[str], T]) -> T:
     """Prompts the user for an input. This function makes sure the user passes a valid 
     input parseable by type_strategy, then returning the parsed value.
 
-    Parameters
-    ----------
-    inpt : str
-        The user input to parse by type_strategy
-    type_strategy : Callable[[str], T]
-        Callable that accepts a string as an argument, and returns any type 'T'
+    Args:
+        inpt (str): The user input to parse by type_strategy
+        type_strategy (Callable[[str], T]): Callable that accepts a string as an argument, and returns any type 'T'
 
-    Returns
-    -------
-    T
-        The user input parsed into type 'T' by type_strategy
+    Returns:
+        T: The user input parsed into type 'T' by type_strategy
     """
     while True:
         inpt = ask(prompt)
@@ -46,11 +42,9 @@ def prompt_main() -> int:
     """Prompts the user for an input. 1 Input Expenses. 2 Input Income. 3 View Account
     Balance. 4 View Expense Statistics. 5 View Income Statistics
 
-    Returns
-    -------
-    int
-        The option the user picked 
-    """
+    Returns:
+        int: The option the user picked 
+    """    
     print(
         "Pick an option:"
         "---------------"
