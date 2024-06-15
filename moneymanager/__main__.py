@@ -1,22 +1,40 @@
 import display
+import csv_manager
+
+
+def _do_input_expense():
+    expense = display.input_expense()
+    csv_manager.manage_expense_input(expense)
+
+def _do_input_income():
+    return
+
+def _do_view_balance():
+    return
+
+def _do_expense_statistics():
+    return
+
+def _do_income_statistics():
+    return
 
 
 def main() -> None:
     display.display_welcome()
 
     while True:
-        option = display.prompt_main()
+        option = display.input_main()
         match option:
             case 1:  # input expense
-                display.prompt_input_expense()
+                _do_input_income()
             case 2:  # input income
-                display.prompt_input_income()
+                _do_input_expense()
             case 3:  # view balance
-                display.prompt_view_balance()
+                _do_view_balance()
             case 4:  # expense statistics
-                display.prompt_expense_statistics()
+                _do_expense_statistics()
             case 5:  # income statistics
-                display.prompt_income_statistics()
+                _do_income_statistics()
             case _:
                 print("Invalid input.")
 
