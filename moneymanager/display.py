@@ -61,7 +61,7 @@ def input_main() -> int:
     parsed_input = must_get_input(inpt, int)
     return parsed_input
 
-def input_expense() -> Transaction | None:
+def input_expense() -> Transaction:
     account = must_get_input("Input account: ", str)
     category = must_get_input("Input category: ", str)
     inpt = must_get_input("Input expenses: ", int)
@@ -72,7 +72,7 @@ def input_expense() -> Transaction | None:
     # ask for: no;date;account;amount;type;category;comment
     return transaction
     
-def input_income() -> int | None:
+def input_income() -> Transaction:
     account = must_get_input("Input account: ", str)
     category = must_get_input("Input category: ", str)
     inpt = must_get_input("Input expenses: ", int)
