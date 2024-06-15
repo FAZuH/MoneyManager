@@ -80,7 +80,6 @@ def input_income() -> int | None:
     transaction = Transaction(datetime.now(), account, inpt, "income", category, comment)
 
     # TODO:
-    parsed_input = must_get_input(inpt, int)
     return transaction
 
 def view_account_balance(name: str, balance: int):
