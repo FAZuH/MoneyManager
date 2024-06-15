@@ -1,7 +1,10 @@
+from datetime import datetime
 from typing import Callable
 
+from moneymanager.transaction import Transaction
 
-def ask(prompt: str) -> str:
+
+def exittable_input(prompt: str) -> str:
     """Asks the user for an input. Exits the program if the input is 'exit'
 
     Args:
@@ -27,7 +30,7 @@ def must_get_input[T](prompt: str, type_strategy: Callable[[str], T]) -> T:
         T: The user input parsed into type 'T' by type_strategy
     """
     while True:
-        inpt = ask(prompt)
+        inpt = exittable_input(prompt)
         try:
             return type_strategy(inpt)
         except ValueError:
@@ -38,7 +41,7 @@ def display_welcome() -> None:
     # TODO: Display ASCII art of 'MoneyManager'
     print("Welcome to MoneyManager")
 
-def prompt_main() -> int:
+def input_main() -> int:
     """Prompts the user for an input. 1 Input Expenses. 2 Input Income. 3 View Account
     Balance. 4 View Expense Statistics. 5 View Income Statistics
 
@@ -54,35 +57,40 @@ def prompt_main() -> int:
         "4. View Expense Statistics"
         "5. View Income Statistics"
     ) 
-    inpt = ask('> ')
+    inpt = exittable_input('> ')
     parsed_input = must_get_input(inpt, int)
     return parsed_input
 
-def input_expenses() -> int:
+def input_expense() -> int | None:
     print("Type cancel to cancel")
-    inpt = ask('> ')
+    inpt = exittable_input('> ')
+
     if inpt == "cancel":
         return
-    else:
-        parsed_input = must_get_input(inpt, int)
-        return parsed_input
+
+    # TODO:
+    # ask for: no;date;account;amount;type;category;comment
+    parsed_input = must_get_input(inpt, int)
+    return parsed_input
     
-def input_income() -> int:
+def input_income() -> int | None:
     print("Type cancel to cancel")
-    inpt = ask('> ')
+    inpt = exittable_input('> ')
+
     if inpt == "cancel":
         return
-    else:
-        parsed_input = must_get_input(inpt, int)
-        return parsed_input
+
+    # TODO:
+    parsed_input = must_get_input(inpt, int)
+    return parsed_input
     
 def view_account_balance(name: str, balance: int):
-    print(f"""
-Account Balance
+    print(
+        "Account Balance"
 
-Name: {name}
-Balance: {balance}
-""")
+        f"Name: {name}"
+        f"Balance: {balance}"
+    )
 
 def expense_statistics():
     pass

@@ -10,11 +10,11 @@ class TestDisplay(unittest.TestCase):
     @patch('builtins.input', side_effect=["bye", "exit"])
     def test_ask(self, mock_input: MagicMock, mock_exit: MagicMock) -> None:
         # Test if return value of input() is returned
-        inpt1 = display.ask('')
+        inpt1 = display.exittable_input('')
         self.assertEqual(inpt1, "bye")
 
         # Test if exit() is called if user inputs 'exit'
-        display.ask('')
+        display.exittable_input('')
         mock_exit.assert_called_once()
 
     @patch('builtins.print')
