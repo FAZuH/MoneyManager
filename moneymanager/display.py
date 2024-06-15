@@ -57,3 +57,35 @@ def prompt_main() -> int:
     inpt = ask('> ')
     parsed_input = must_get_input(inpt, int)
     return parsed_input
+
+def input_expenses() -> int:
+    print("Type cancel to cancel")
+    inpt = ask('> ')
+    if inpt == "cancel":
+        return
+    else:
+        parsed_input = must_get_input(inpt, int)
+        return parsed_input
+    
+def input_income() -> int:
+    print("Type cancel to cancel")
+    inpt = ask('> ')
+    if inpt == "cancel":
+        return
+    else:
+        parsed_input = must_get_input(inpt, int)
+        return parsed_input
+    
+def view_account_balance(name: str, balance: int):
+    print(f"""
+Account Balance
+
+Name: {name}
+Balance: {balance}
+""")
+
+def expense_statistics():
+    pass
+
+def income_statistics():
+    pass
