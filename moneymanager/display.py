@@ -42,8 +42,7 @@ def display_welcome() -> None:
     print("Welcome to MoneyManager")
 
 def input_main() -> int:
-    """Prompts the user for an input. 1 Input Expenses. 2 Input Income. 3 View Account
-    Balance. 4 View Expense Statistics. 5 View Income Statistics
+    """Prompts the user for main option.
 
     Returns:
         int: The option the user picked 
@@ -51,47 +50,33 @@ def input_main() -> int:
     print(
         "Pick an option:"
         "---------------"
-        "1. Input Expenses"
-        "2. Input Income"
-        "3. View Account Balance"
-        "4. View Expense Statistics"
-        "5. View Income Statistics"
-    ) 
+        "1. Add Transaction"
+        "2. Transaction History"
+        "3. Account"
+        "4. Statistics"
+    )
     inpt = exittable_input('> ')
     parsed_input = must_get_input(inpt, int)
     return parsed_input
 
-def input_expense() -> Transaction:
-    account = must_get_input("Input account: ", str)
-    category = must_get_input("Input category: ", str)
-    inpt = must_get_input("Input expenses: ", int)
-    comment = must_get_input("Input comment: ", str)
-    transaction = Transaction(datetime.now(), account, inpt, "expense", category, comment)
-
-    # TODO:
-    # ask for: no;date;account;amount;type;category;comment
-    return transaction
+def input_transaction(type_: str) -> Transaction:
+    """Asks user input for adding transaction
     
-def input_income() -> Transaction:
+    Args:
+        type_ (str): Transaction type 
+    """
     account = must_get_input("Input account: ", str)
     category = must_get_input("Input category: ", str)
-    inpt = must_get_input("Input expenses: ", int)
+    inpt = must_get_input(f"Input {type_}: ", float)
     comment = must_get_input("Input comment: ", str)
-    transaction = Transaction(datetime.now(), account, inpt, "income", category, comment)
-
-    # TODO:
+    transaction = Transaction(datetime.now(), account, inpt, type_, category, comment)
     return transaction
 
-def view_account_balance(name: str, balance: int):
-    print(
-        "Account Balance"
-
-        f"Name: {name}"
-        f"Balance: {balance}"
-    )
+def view_account_balance(account: str):
+    ...
 
 def expense_statistics():
-    pass
+    ...
 
 def income_statistics():
-    pass
+    ...

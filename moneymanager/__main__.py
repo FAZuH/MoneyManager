@@ -3,11 +3,12 @@ import csv_manager
 
 
 def _do_input_expense():
-    expense = display.input_expense()
-    csv_manager.manage_expense_input(expense)
+    expense = display.input_transaction("expense")
+    csv_manager.insert_transaction(expense)
 
 def _do_input_income():
-    return
+    income = display.input_transaction("income")
+    csv_manager.insert_transaction(income)
 
 def _do_view_balance():
     return
