@@ -1,5 +1,6 @@
 from datetime import datetime
 from typing import Callable
+from typing import Literal
 
 from moneymanager.transaction import Transaction
 
@@ -59,7 +60,7 @@ def input_main() -> int:
     parsed_input = must_get_input(inpt, int)
     return parsed_input
 
-def input_transaction(type_: str) -> Transaction:
+def input_transaction(type_: Literal['expense'] | Literal['income']) -> Transaction:
     """Asks user input for adding transaction
     
     Args:
