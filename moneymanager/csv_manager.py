@@ -1,12 +1,12 @@
 import csv
+from typing import Any
 
 from transaction import Transaction
-
 
 transaction_history_path = "userdata/transaction_history.csv"
 
 
-def csv_to_list() -> list:
+def csv_to_list() -> list[list[str]]:
     with open(transaction_history_path) as transactions:
         transactions_data = csv.reader(transactions)
     
@@ -19,14 +19,11 @@ def csv_to_list() -> list:
 def _get_latest_transaction_number() -> int:
     with open(transaction_history_path) as transactions:
         transactions_data = csv.reader(transactions)
-        
-        count = 0
-        for row in transactions_data:
-            count += 1
+        latest_transaction = list(transactions_data)[0]
+        latest_transaction_number = latest_transaction[-1]
+        return int(latest_transaction_number)
 
-        return count - 1
-
-def transaction_to_list(transaction: Transaction) -> list:
+def transaction_to_list(transaction: Transaction) -> list[Any]:
     transaction_list = [transaction.date.isoformat(),transaction.amount,transaction.type_,transaction.category,transaction.comment]
     return transaction_list
 
@@ -37,8 +34,7 @@ def list_to_transaction(transaction_list: list) -> Transaction:
 def insert_transaction(new_transaction: Transaction):
     with open(transaction_history_path, "w", newline="") as transactions:
         writer = csv.writer(transactions)
-
-        num = _get_latest_transaction_number()+1
-        new_row = [num, *new_transaction]
-
+        num = _get_latest_transaction_number() + 1
+        new_transaction_list = transaction_to_list(new_transaction)
+        new_row = [num, *new_transaction_list]
         writer.writerow(new_row)
