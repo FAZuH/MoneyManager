@@ -36,7 +36,7 @@ class TestCsvManager(TestCase):
     def test_csv_to_list_return_value(self) -> None:
         # ACT
         transaction_list = csv_manager.csv_to_list()
-        transaction = transaction_list[0]
+        transaction = transaction_list[1]
 
         # ASSERT
         self.assertEqual(transaction[0], str(self.transaction_no0))
