@@ -28,10 +28,10 @@ class TestCsvManager(TestCase):
         self.mock_transaction0.category = "food"
         self.mock_transaction0.comment = "ayam super"
 
-        self.mock_transaction2 = copy.copy(self.mock_transaction0)
+        self.mock_transaction1 = copy.copy(self.mock_transaction0)
 
         self.__add_mock_transaction(self.transaction_no0, self.mock_transaction0)
-        self.__add_mock_transaction(self.transaction_no1, self.mock_transaction2)
+        self.__add_mock_transaction(self.transaction_no1, self.mock_transaction1)
 
     def test_csv_to_list_return_value(self) -> None:
         # ACT
@@ -61,7 +61,7 @@ class TestCsvManager(TestCase):
         # ASSERT
         self.assertEqual(transaction_list[0], self.mock_transaction0.date.isoformat())
         self.assertEqual(transaction_list[1], self.mock_transaction0.account)
-        self.assertEqual(transaction_list[2], self.mock_transaction0.amount)
+        self.assertEqual(transaction_list[2], str(self.mock_transaction0.amount))
         self.assertEqual(transaction_list[3], self.mock_transaction0.type_)
         self.assertEqual(transaction_list[4], self.mock_transaction0.category)
         self.assertEqual(transaction_list[5], self.mock_transaction0.comment)
