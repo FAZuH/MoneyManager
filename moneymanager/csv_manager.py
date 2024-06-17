@@ -1,7 +1,7 @@
 import csv
 from typing import Any
 
-from transaction import Transaction
+from moneymanager.transaction import Transaction
 
 transaction_history_path = "userdata/transaction_history.csv"
 
