@@ -13,9 +13,7 @@ class TestCsvManager(TestCase):
     # override
     def setUp(self) -> None:
         csv_manager.transaction_history_path = "temp_transaction_history.csv"
-        with open(csv_manager.transaction_history_path, 'w') as file:
-            writer = csv.writer(file)
-            writer.writerow(["no", "date", "account", "amount", "type", "category", "comment"])
+        self.__init_transaction_history()
 
         self.transaction_no0 = 1
         self.transaction_no1 = 5
@@ -54,6 +52,17 @@ class TestCsvManager(TestCase):
         # ASSERT
         self.assertEqual(latest_transaction_number, self.transaction_no1)
 
+    def test_get_latest_transaction_number_on_empty_history(self) -> None:
+        # PREPARE        
+        self.tearDown()
+        self.__init_transaction_history()
+
+        # ACT
+        latest_transaction_number = csv_manager._get_latest_transaction_number()
+
+        # ASSERT
+        self.assertEqual(latest_transaction_number, self.transaction_no1)
+
     def test_transaction_to_list_return_value(self) -> None:
         # ACT
         transaction_list = csv_manager.transaction_to_list(self.mock_transaction0)
@@ -84,6 +93,7 @@ class TestCsvManager(TestCase):
     def test_insert_transaction_successful(self) -> None:
         # PREPARE
         self.tearDown()  # remove previously added mock data from setUp
+        self.__init_transaction_history()
 
         # ACT
         csv_manager.insert_transaction(self.mock_transaction0)
@@ -97,7 +107,7 @@ class TestCsvManager(TestCase):
 
     def __add_mock_transaction(self, transaction_number: int, transaction: transaction.Transaction):
         with open(csv_manager.transaction_history_path, 'a') as file:
-            writer = csv.writer(file)
+            writer = csv.writer(file, lineterminator="\n")
             writer.writerow([
                 transaction_number,
                 transaction.date.isoformat(),
@@ -107,6 +117,11 @@ class TestCsvManager(TestCase):
                 transaction.category,
                 transaction.comment
             ])
+
+    def __init_transaction_history(self) -> None:
+        with open(csv_manager.transaction_history_path, 'w') as file:
+            writer = csv.writer(file, lineterminator="\n")
+            writer.writerow(["no", "date", "account", "amount", "type", "category", "comment"])
 
     # override
     def tearDown(self) -> None:
