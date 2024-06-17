@@ -54,7 +54,7 @@ class TestCsvManager(TestCase):
         # ASSERT
         self.assertEqual(latest_transaction_number, self.transaction_no1)
 
-    def test_transaction_list_return_value(self) -> None:
+    def test_transaction_to_list_return_value(self) -> None:
         # ACT
         transaction_list = csv_manager.transaction_to_list(self.mock_transaction0)
 
