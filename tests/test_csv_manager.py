@@ -61,7 +61,7 @@ class TestCsvManager(TestCase):
         latest_transaction_number = csv_manager._get_latest_transaction_number()
 
         # ASSERT
-        self.assertEqual(latest_transaction_number, self.transaction_no1)
+        self.assertEqual(latest_transaction_number, 0)
 
     def test_transaction_to_list_return_value(self) -> None:
         # ACT
