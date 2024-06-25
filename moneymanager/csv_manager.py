@@ -1,4 +1,5 @@
 import csv
+from datetime import datetime
 from typing import Any
 
 from moneymanager.transaction import Transaction
@@ -28,12 +29,12 @@ def _get_latest_transaction_number() -> int:
         return int(latest_transaction_number)
         
 
-def transaction_to_list(transaction: Transaction) -> list[Any]:
-    transaction_list = [transaction.date.isoformat(),transaction.account,transaction.amount,transaction.type_,transaction.category,transaction.comment]
+def transaction_to_list(transaction: Transaction) -> list[str]:
+    transaction_list = [transaction.date.isoformat(),transaction.account,str(transaction.amount),transaction.type_,transaction.category,transaction.comment]
     return transaction_list
 
 def list_to_transaction(transaction_list: list) -> Transaction:
-    transaction = Transaction(transaction_list[0],transaction_list[1],transaction_list[2],transaction_list[3],transaction_list[4],transaction_list[5])
+    transaction = Transaction(datetime.fromisoformat(transaction_list[0]),transaction_list[1],transaction_list[2],transaction_list[3],transaction_list[4],transaction_list[5])
     return transaction
 
 def insert_transaction(new_transaction: Transaction):
