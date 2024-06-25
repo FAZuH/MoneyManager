@@ -19,12 +19,17 @@ def csv_to_list() -> list[list[str]]:
 def _get_latest_transaction_number() -> int:
     with open(transaction_history_path) as transactions:
         transactions_data = csv.reader(transactions)
-        latest_transaction = list(transactions_data)[0]
-        latest_transaction_number = latest_transaction[-1]
+        latest_transaction = list(transactions_data)
+        _latest_transaction = latest_transaction[-1]
+        latest_transaction_number = _latest_transaction[0]
+        if latest_transaction_number == "no":
+            return 0
+        
         return int(latest_transaction_number)
+        
 
 def transaction_to_list(transaction: Transaction) -> list[Any]:
-    transaction_list = [transaction.date.isoformat(),transaction.amount,transaction.type_,transaction.category,transaction.comment]
+    transaction_list = [transaction.date.isoformat(),transaction.account,transaction.amount,transaction.type_,transaction.category,transaction.comment]
     return transaction_list
 
 def list_to_transaction(transaction_list: list) -> Transaction:
@@ -32,7 +37,7 @@ def list_to_transaction(transaction_list: list) -> Transaction:
     return transaction
 
 def insert_transaction(new_transaction: Transaction):
-    with open(transaction_history_path, "w", newline="") as transactions:
+    with open(transaction_history_path, "a", newline="") as transactions:
         writer = csv.writer(transactions)
         num = _get_latest_transaction_number() + 1
         new_transaction_list = transaction_to_list(new_transaction)

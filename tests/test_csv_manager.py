@@ -88,7 +88,7 @@ class TestCsvManager(TestCase):
             reader = csv.reader(transactions)
             rows = list(reader)
             self.assertEqual(len(rows), 2)  # Assert that there is exactly one row in the CSV file
-            rows[1][2] = float(rows[1][2])  # type: ignore
+            rows[1][3] = float(rows[1][3])  # type: ignore
             self.assertEqual(
                 rows[1][1:], 
                 [
