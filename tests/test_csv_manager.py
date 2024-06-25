@@ -32,11 +32,9 @@ class TestCsvManager(TestCase):
         self.__add_mock_transaction(self.transaction_no1, self.mock_transaction1)
 
     def test_csv_to_list_return_value(self) -> None:
-        # ACT
         transaction_list = csv_manager.csv_to_list()
         transaction = transaction_list[1]
 
-        # ASSERT
         self.assertEqual(transaction[0], str(self.transaction_no0))
         self.assertEqual(transaction[1], self.mock_transaction0.date.isoformat())
         self.assertEqual(transaction[2], self.mock_transaction0.account)
@@ -46,28 +44,21 @@ class TestCsvManager(TestCase):
         self.assertEqual(transaction[6], self.mock_transaction0.comment)
 
     def test_get_latest_transaction_number_return_value(self) -> None:
-        # ACT
         latest_transaction_number = csv_manager._get_latest_transaction_number()
 
-        # ASSERT
         self.assertEqual(latest_transaction_number, self.transaction_no1)
 
     def test_get_latest_transaction_number_on_empty_history(self) -> None:
-        # PREPARE        
         self.tearDown()
         self.__init_transaction_history()
 
-        # ACT
         latest_transaction_number = csv_manager._get_latest_transaction_number()
 
-        # ASSERT
         self.assertEqual(latest_transaction_number, 0)
 
     def test_transaction_to_list_return_value(self) -> None:
-        # ACT
         transaction_list = csv_manager.transaction_to_list(self.mock_transaction0)
 
-        # ASSERT
         self.assertEqual(transaction_list[0], self.mock_transaction0.date.isoformat())
         self.assertEqual(transaction_list[1], self.mock_transaction0.account)
         self.assertEqual(transaction_list[2], str(self.mock_transaction0.amount))
@@ -76,13 +67,10 @@ class TestCsvManager(TestCase):
         self.assertEqual(transaction_list[5], self.mock_transaction0.comment)
 
     def test_list_to_transaction_return_value(self) -> None:
-        # PREPARE
         transaction_list = csv_manager.transaction_to_list(self.mock_transaction0)
 
-        # ACT
         transaction = csv_manager.list_to_transaction(transaction_list)
 
-        # ASSERT
         self.assertEqual(transaction_list[0], transaction.date.isoformat())
         self.assertEqual(transaction_list[1], transaction.account)
         self.assertEqual(transaction_list[2], transaction.amount)
@@ -91,19 +79,27 @@ class TestCsvManager(TestCase):
         self.assertEqual(transaction_list[5], transaction.comment)
 
     def test_insert_transaction_successful(self) -> None:
-        # PREPARE
         self.tearDown()  # remove previously added mock data from setUp
         self.__init_transaction_history()
 
-        # ACT
         csv_manager.insert_transaction(self.mock_transaction0)
 
-        # Assert that the transaction was correctly inserted
         with open(csv_manager.transaction_history_path) as transactions:
             reader = csv.reader(transactions)
             rows = list(reader)
-            self.assertEqual(len(rows), 1)  # Assert that there is exactly one row in the CSV file
-            self.assertEqual(rows[0][1:], csv_manager.transaction_to_list(self.mock_transaction0))
+            self.assertEqual(len(rows), 2)  # Assert that there is exactly one row in the CSV file
+            rows[1][2] = float(rows[1][2])  # type: ignore
+            self.assertEqual(
+                rows[1][1:], 
+                [
+                    self.mock_transaction0.date.isoformat(),
+                    self.mock_transaction0.account,
+                    self.mock_transaction0.amount,
+                    self.mock_transaction0.type_,
+                    self.mock_transaction0.category,
+                    self.mock_transaction0.comment
+                ]
+            )
 
     def __add_mock_transaction(self, transaction_number: int, transaction: transaction.Transaction):
         with open(csv_manager.transaction_history_path, 'a') as file:
