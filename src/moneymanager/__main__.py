@@ -1,9 +1,9 @@
 import display
-from moneymanager.account_model import AccountModel
+from moneymanager.account_model import AccountRepository
 from moneymanager.transaction_model import TransactionModel
 
 
-account_model = AccountModel()
+account_model = AccountRepository()
 transaction_model = TransactionModel()
 
 
@@ -14,11 +14,7 @@ def do_view_add_transaction():
         2: Add income
         3: Back
     """
-    option_mapping = {
-        1: "expense",
-        2: "income",
-        3: "exit"
-    }
+    option_mapping = {1: "expense", 2: "income", 3: "exit"}
 
     while True:
         option_int = display.choose_transaction_type()
@@ -34,13 +30,13 @@ def do_view_add_transaction():
             return
 
         transaction = display.input_transaction(option)  # type: ignore
-        transaction_model.add_transaction(transaction) 
+        transaction_model.add_transaction(transaction)
 
 
 def do_view_transaction_history():
     """
     1. Show daily transaction history
-    2. Choose: 
+    2. Choose:
         1. daily
         2. weekly
         3. monthly
@@ -80,6 +76,7 @@ def do_view_transaction_history():
 
         display.show_transaction_history(option)
 
+
 def do_view_account():
     """
     1. Show existing account. name and their corresponding balance
@@ -92,14 +89,7 @@ def do_view_account():
     3. Show success message
     4. Go to step 1.
     """
-    option_mapping = {
-        1: "show",
-        2: "add",
-        3: "edit",
-        4: "remove",
-        5: "transfer",
-        6: "exit"
-    }
+    option_mapping = {1: "show", 2: "add", 3: "edit", 4: "remove", 5: "transfer", 6: "exit"}
 
     while True:
         option_int = display.choose_account_type()
