@@ -1,0 +1,106 @@
+[project]
+name = "MoneyManager"
+# On the release branches, this string will be automatically updated by the bots
+# Do not change this in the main branch!
+
+
+version = "0.1.0"
+
+
+description = "Application to manage your expenses and incomes"
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.13"
+authors = [
+    { name = "FAZuH", email = "fazuhhh@proton.me" },
+    { name = "AdrianSPratama" },
+    { name = "HaaaDeee" },
+]
+dependencies = [
+]
+
+[project.scripts]
+moneymanager = "moneymanager.__main__:main"
+
+[project.urls]
+Source = "https://github.com/FAZuH/MoneyManager"
+Issues = "https://github.com/FAZuH/MoneyManager/issues"
+Documentation = "https://github.com/FAZuH/MoneyManager#readme"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+# include = [ 
+#     "faz.bot*",
+# ]
+
+# Common
+[dependency-groups]
+dev = [
+    "alembic>=1.14.0",
+    "black>=24.10.0",
+    "pytest>=8.3.3",
+    "isort>=5.13.2",
+    "ruff>=0.7.4",
+]
+
+[build-system]
+requires = ["setuptools>=42"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+addopts = "-ra -q"
+testpaths = [
+    "tests",
+]
+
+[tool.isort]
+profile = "google"
+line_length = 100
+
+[tool.ruff]
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".ipynb_checkpoints",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pyenv",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "site-packages",
+    "venv",
+]
+line-length = 100
+indent-width = 4
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]
+ignore = ["E731"]
+fixable = ["ALL"]
+unfixable = []
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+docstring-code-format = false
+docstring-code-line-length = "dynamic"
