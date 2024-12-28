@@ -4,12 +4,11 @@ Simple CLI-based app to manage your expenses and income.
 
 ## Table of Contents
 
-- [MoneyManager](#moneymanager)
-  - [Table of Contents](#table-of-contents)
-  - [Install](#install)
-  - [Usage](#usage)
-  - [Features](#features)
-  - [License](#license)
+- [Table of Contents](#table-of-contents)
+- [Install](#install)
+- [Usage](#usage)
+- [Features](#features)
+- [License](#license)
 
 ## Install
 
@@ -17,13 +16,13 @@ Simple CLI-based app to manage your expenses and income.
 
 ```sh
 git clone https://github.com/FAZuH/MoneyManager.git
-
-cd MoneyManager
 ```
 
 2. Download application dependencies
 
 ```sh
+cd MoneyManage  # Change working directory into where you installed MoneyManagerr
+
 python -m venv .venv
 
 # On Windows
@@ -32,7 +31,7 @@ python -m venv .venv
 # On Unix or MacOS
 source .venv/bin/activate
 
-pip install -r requirements.txt
+pip install .
 ```
 
 ## Usage
