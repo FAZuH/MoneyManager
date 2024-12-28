@@ -12,9 +12,8 @@ class TransactionRepository(Repository[Transaction, str]):
     TRANSACTION_HISTORY_PATH = "userdata/transaction_history.csv"
 
     def insert(self, entity: Transaction) -> None:
-        uuid = self._generate_transaction_uuid()
         new_transaction_list = entity.to_list()
-        new_row = [uuid, *new_transaction_list]
+        new_row = [*new_transaction_list]
 
         with open(self.TRANSACTION_HISTORY_PATH, "a", newline="") as stream:
             writer = csv.writer(stream)
@@ -32,6 +31,3 @@ class TransactionRepository(Repository[Transaction, str]):
 
             transactions_list = list(transactions_data)
             return transactions_list
-
-    def _generate_transaction_uuid(self) -> str:
-        return UUID().hex
