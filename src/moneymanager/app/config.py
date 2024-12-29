@@ -1,6 +1,9 @@
+from moneymanager.app._ui_option import UiOption
+
+
 class Config:
-    UI: str
+    UI: UiOption
 
     @classmethod
     def load(cls) -> None:
-        cls.UI = "cli"
+        cls.UI = UiOption.CLI
