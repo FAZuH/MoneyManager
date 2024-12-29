@@ -1,11 +1,14 @@
 from __future__ import annotations
-from abc import ABC, abstractmethod
+
+from abc import ABC
+from abc import abstractmethod
 from contextlib import contextmanager
 import csv
 from typing import Generator, TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from _csv import _reader, _writer
+    from _csv import _reader
+    from _csv import _writer
 
 
 class BaseCsvRepository(ABC):
@@ -50,4 +53,5 @@ class BaseCsvRepository(ABC):
 
     @property
     @abstractmethod
-    def path(self) -> str: ...
+    def path(self) -> str:
+        """Path to the CSV file."""
