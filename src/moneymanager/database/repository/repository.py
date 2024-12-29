@@ -2,11 +2,7 @@ from typing import Protocol
 
 
 class Repository[T, ID](Protocol):
-    def insert(self, entity: T) -> None:
-        pass
-
-    def update(self, entity: T) -> None:
-        pass
-
-    def delete(self, identifier: ID) -> None:
-        pass
+    def select(self, identifier: ID) -> T: ...
+    def insert(self, entity: T) -> None: ...
+    def update(self, entity: T) -> None: ...
+    def delete(self, identifier: ID) -> None: ...
