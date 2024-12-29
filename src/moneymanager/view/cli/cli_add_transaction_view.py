@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 from typing import Any
 
 from moneymanager.view.cli.base_cli_view import BaseCliView

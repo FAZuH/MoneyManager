@@ -1,5 +1,5 @@
-from moneymanager.database.repository.repository import Repository
 from moneymanager.database.entity.account import Account
+from moneymanager.database.repository.repository import Repository
 
 
 class AccountRepository(Repository[Account, str]):

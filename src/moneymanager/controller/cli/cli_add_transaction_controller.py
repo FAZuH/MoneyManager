@@ -1,6 +1,7 @@
 from __future__ import annotations
+
 from datetime import datetime
-from typing import TYPE_CHECKING, override
+from typing import override, TYPE_CHECKING
 import uuid
 
 from moneymanager.controller.base_controller import BaseController
