@@ -1,8 +1,7 @@
-from typing import Callable
+from abc import ABC
 import os
 import platform
-
-from abc import ABC
+from typing import Callable
 
 
 class BaseCliView(ABC):

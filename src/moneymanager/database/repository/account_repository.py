@@ -1,17 +1,12 @@
-from typing import TYPE_CHECKING, Any
-
-from moneymanager.repository.repository import Repository
-
-if TYPE_CHECKING:
-    from moneymanager.entity.account import Account
+from moneymanager.database.entity.account import Account
+from moneymanager.database.repository.repository import Repository
 
 
 class AccountRepository(Repository[Account, str]):
-    def insert(self, entity: Account) -> None:
-        return
+    def select(self, identifier: str) -> Account: ...
 
-    def update(self, entity: Account) -> None:
-        return
+    def insert(self, entity: Account) -> None: ...
 
-    def delete(self, identifier: str) -> None:
-        return
+    def update(self, entity: Account) -> None: ...
+
+    def delete(self, identifier: str) -> None: ...

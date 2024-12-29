@@ -1,5 +1,6 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, override
+
+from typing import override, TYPE_CHECKING
 
 from moneymanager.controller.base_controller import BaseController
 from moneymanager.controller.cli.cli_add_transaction_controller import CliAddTransactionController
