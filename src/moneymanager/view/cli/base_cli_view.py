@@ -1,3 +1,4 @@
+from typing import Callable
 import os
 import platform
 
@@ -12,7 +13,11 @@ class BaseCliView(ABC):
         else:
             os.system("clear")
 
-    def show_welcome(self) -> None:
+    def display_error(self, message: str) -> None:
+        """Displays an error message to the user."""
+        print(f"Error: {message}")
+
+    def display_welcome(self) -> None:
         """Displays a welcome message to the user."""
         # TODO: Display ASCII art of 'MoneyManager'
         print("Welcome to MoneyManager")
