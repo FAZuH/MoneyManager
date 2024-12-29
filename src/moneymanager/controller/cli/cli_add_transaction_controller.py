@@ -5,7 +5,6 @@ import uuid
 
 from moneymanager.controller.base_controller import BaseController
 from moneymanager.database.entity.transaction import Transaction
-from moneymanager.database.repository.transaction_repository import TransactionRepository
 from moneymanager.view.cli.cli_add_transaction_view import CliAddTransactionView
 
 if TYPE_CHECKING:
@@ -16,7 +15,7 @@ class CliAddTransactionController(BaseController):
     def __init__(self, app: App) -> None:
         super().__init__(app)
         self.view = CliAddTransactionView()
-        self.repository = TransactionRepository()
+        self.repository = self.app.database.transaction_repository
 
     @override
     def run(self) -> None:
