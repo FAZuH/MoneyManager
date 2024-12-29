@@ -1,5 +1,3 @@
-import csv
-
 from moneymanager.database.base_csv_repository import BaseCsvRepository
 from moneymanager.database.entity.transaction import Transaction
 from moneymanager.database.repository.repository import Repository
@@ -29,5 +27,5 @@ class TransactionRepository(BaseCsvRepository, Repository[Transaction, str]):
             return [Transaction.from_list(transaction) for transaction in reader]
 
     @property
-    def path(self) -> str:
-        return "userdata/transaction_history.csv"
+    def filename(self) -> str:
+        return "transaction_history.csv"
