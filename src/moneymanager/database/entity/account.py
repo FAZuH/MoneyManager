@@ -5,10 +5,10 @@ from typing import Any, Self
 @dataclass
 class Account:
     name: str
-    balance: float
+    initial_balance: float
 
     def to_list(self) -> list[Any]:
-        return [self.name, self.balance]
+        return [self.name, self.initial_balance]
 
     @classmethod
     def from_list(cls, data: list[Any]) -> Self:
