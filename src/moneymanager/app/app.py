@@ -1,7 +1,7 @@
 from moneymanager.app._ui_option import UiOption
 from moneymanager.app.config import Config
 from moneymanager.controller.cli.main_cli_controller import MainCliController
-from moneymanager.database.money_manager_database import MoneyManagerDatabase
+from moneymanager.database.moneymanager_database import MoneymanagerDatabase
 
 
 class App:
@@ -11,7 +11,7 @@ class App:
         self.config = Config()
         self.config.load()
 
-        self.database = MoneyManagerDatabase()
+        self.database = MoneymanagerDatabase()
 
         if self.config.UI is UiOption.CLI:
             self.main_controller = MainCliController(self)

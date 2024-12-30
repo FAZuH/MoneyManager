@@ -5,12 +5,10 @@ from abc import abstractmethod
 from contextlib import contextmanager
 import csv
 import os
-import shutil
 from typing import Generator, TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from _csv import _reader
-    from _csv import _writer
+    from _typeshed import DataclassInstance
 
 
 class BaseCsvRepository(ABC):
@@ -18,6 +16,7 @@ class BaseCsvRepository(ABC):
         self._base_dir = "userdata"
         self._base_path = os.path.join(os.getcwd(), self._base_dir)
         self._csv_path = os.path.join(self._base_path, self.filename)
+        self._fieldnames = [k for k in self.model.__dataclass_fields__]
         self._init_path()
 
     @property
@@ -25,8 +24,16 @@ class BaseCsvRepository(ABC):
     def filename(self) -> str:
         """File name of the CSV."""
 
+    @property
+    @abstractmethod
+    def model(self) -> type[DataclassInstance]:
+        """Model class of the CSV.
+
+        Override this with the concrete class' own model.
+        """
+
     @contextmanager
-    def enter_reader(self, mode: str = "r") -> Generator[_reader, None, None]:
+    def enter_reader(self, mode: str = "r") -> Generator[csv.DictReader, None, None]:
         """Context manager that yields a CSV reader object.
 
         Yields
@@ -42,11 +49,11 @@ class BaseCsvRepository(ABC):
 
         """
         with open(self._csv_path, mode, newline="") as stream:
-            reader = csv.reader(stream, lineterminator=";\n")
+            reader = csv.DictReader(stream, fieldnames=self._fieldnames, lineterminator=";\n")
             yield reader
 
     @contextmanager
-    def enter_writer(self, mode: str = "a") -> Generator[_writer, None, None]:
+    def enter_writer(self, mode: str = "a") -> Generator[csv.DictWriter, None, None]:
         """Context manager that yields a CSV writer object.
 
         Yields
@@ -61,15 +68,14 @@ class BaseCsvRepository(ABC):
         ...     writer.writerow(['data1', 'data2'])
         """
         with open(self._csv_path, mode, newline="") as stream:
-            writer = csv.writer(stream, lineterminator=";\n")
+            writer = csv.DictWriter(stream, fieldnames=self._fieldnames, lineterminator=";\n")
             yield writer
 
     def _init_path(self) -> None:
-        """Checks if the path exists, and create from template if not."""
+        """Checks if the csv file exists, and create if not."""
+        # NOTE: Remove this shit
+        os.makedirs(self._base_path, exist_ok=True)
         if os.path.exists(self._csv_path):
             return
-
-        os.makedirs(self._base_path, exist_ok=True)
-
-        template_path = self._csv_path + ".template"
-        shutil.copy(template_path, self._csv_path)
+        with self.enter_writer() as writer:
+            writer.writeheader()

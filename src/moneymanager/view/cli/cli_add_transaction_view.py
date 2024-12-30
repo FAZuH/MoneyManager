@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from moneymanager.database.entity.transaction import Transaction
+from moneymanager.database.model.transaction import Transaction
 from moneymanager.view.cli.base_cli_view import BaseCliView
 
 
@@ -16,4 +16,4 @@ class CliAddTransactionView(BaseCliView):
         return [account, category, amount, comment]
 
     def display_transaction_added(self, tx: Transaction) -> None:
-        print(f"Transaction added successfully: {tx.to_list()}")
+        print(f"Transaction added successfully: {tx}")

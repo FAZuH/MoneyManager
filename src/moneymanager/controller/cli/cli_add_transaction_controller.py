@@ -5,7 +5,7 @@ from typing import Literal, override, TYPE_CHECKING
 import uuid
 
 from moneymanager.controller.base_controller import BaseController
-from moneymanager.database.entity.transaction import Transaction
+from moneymanager.database.model.transaction import Transaction
 from moneymanager.exception import UserCancel
 from moneymanager.view.cli.cli_add_transaction_view import CliAddTransactionView
 

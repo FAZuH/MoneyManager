@@ -3,7 +3,8 @@ import os
 import platform
 from typing import Callable
 
-from moneymanager.exception import UserCancel, UserExit
+from moneymanager.exception import UserCancel
+from moneymanager.exception import UserExit
 
 
 class BaseCliView(ABC):
