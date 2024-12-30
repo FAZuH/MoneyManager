@@ -16,6 +16,10 @@ class BaseCliView(ABC):
         """Displays an error message to the user."""
         print(f"Error: {message}")
 
+    def display_line_separator(self, length: int = 80) -> None:
+        """Displays a line separator to the user."""
+        print("-" * length)
+
     def display_welcome(self) -> None:
         """Displays a welcome message to the user."""
         # TODO: Display ASCII art of 'MoneyManager'
