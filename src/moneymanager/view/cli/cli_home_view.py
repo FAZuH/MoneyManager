@@ -8,7 +8,7 @@ class CliHomeView(BaseCliView):
 
         Returns
         -------
-        int
+        `int`
             The option the user picked
             Options:
             1. Add Expense

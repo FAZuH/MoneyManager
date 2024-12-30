@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 
 # TODO: Create separate interface for the main controller.
 class MainCliController(BaseController):
-    """Bootstraps other CLI controllers, and manages the main loop."""
+    """Bootstraps other CLI controllers, and manages the main controller loop."""
 
     def __init__(self, app: App) -> None:
         super().__init__(app)
