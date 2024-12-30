@@ -11,20 +11,22 @@ class CliHomeView(BaseCliView):
         int
             The option the user picked
             Options:
-            1. Add Transaction
-            2. Transaction History
-            3. Account
-            4. Statistics
-            5. Exit
+            1. Add Expense
+            2. Add Income
+            3. Transaction History
+            4. Manage Account
+            5. Statistics
+            6. Exit
         """
         print(
             "Pick an option:",
             "---------------",
-            "1. Add Transaction",
-            "2. Transaction History",
-            "3. Account",
-            "4. Statistics",
-            "5. Exit",
+            "1. Add Expense",
+            "2. Add Income",
+            "3. Transaction History",
+            "4. Manage Account",
+            "5. Statistics",
+            "6. Exit",
             sep="\n",
         )
         return self._must_get_input("> ", int)
