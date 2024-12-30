@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Literal, Self
+from typing import Literal
 
 
 @dataclass
@@ -13,25 +13,8 @@ class Transaction:
     category: str
     comment: str
 
-    def to_list(self) -> list[Any]:
-        return [
-            self.uuid,
-            self.date,
-            self.account,
-            self.amount,
-            self.type_,
-            self.category,
-            self.comment,
-        ]
-
-    @classmethod
-    def from_list(cls, data: list[Any]) -> Self:
-        return cls(
-            data[0],
-            data[1] if isinstance(data[1], datetime) else datetime.fromisoformat(data[1]),
-            data[2],
-            data[3] if isinstance(data[3], float) else float(data[3]),
-            data[4],
-            data[5],
-            data[6],
-        )
+    def __post_init__(self) -> None:
+        if not isinstance(self.date, datetime):
+            self.date = datetime.fromisoformat(self.date)
+        if not isinstance(self.amount, float):
+            self.amount = float(self.amount)

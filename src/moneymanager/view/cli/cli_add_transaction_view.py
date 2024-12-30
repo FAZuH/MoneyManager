@@ -16,4 +16,4 @@ class CliAddTransactionView(BaseCliView):
         return [account, category, amount, comment]
 
     def display_transaction_added(self, tx: Transaction) -> None:
-        print(f"Transaction added successfully: {tx.to_list()}")
+        print(f"Transaction added successfully: {tx}")
