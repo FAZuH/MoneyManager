@@ -164,4 +164,5 @@ cython_debug/
 
 
 # Custom
-# userdata/
+userdata/accounts.csv
+userdata/transaction_history.csv
