@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 
 # TODO: Create separate interface for the main controller.
 class MainCliController(BaseController):
-    """Bootstraps other CLI controllers, and manages the main loop."""
+    """Bootstraps other CLI controllers, and manages the main controller loop."""
 
     def __init__(self, app: App) -> None:
         super().__init__(app)
@@ -26,5 +26,10 @@ class MainCliController(BaseController):
     def run_home_controller(self) -> None:
         self._home_controller.run()
 
-    def run_add_transaction_controller(self) -> None:
+    def run_add_expense_controller(self) -> None:
+        self._transaction_controller.transaction_type = "expense"
+        self._transaction_controller.run()
+
+    def run_add_income_controller(self) -> None:
+        self._transaction_controller.transaction_type = "income"
         self._transaction_controller.run()

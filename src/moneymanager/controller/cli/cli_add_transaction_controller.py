@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import override, TYPE_CHECKING
+from typing import Literal, override, TYPE_CHECKING
 import uuid
 
 from moneymanager.controller.base_controller import BaseController
 from moneymanager.database.entity.transaction import Transaction
+from moneymanager.exception import UserCancel
 from moneymanager.view.cli.cli_add_transaction_view import CliAddTransactionView
 
 if TYPE_CHECKING:
@@ -17,36 +18,28 @@ class CliAddTransactionController(BaseController):
         super().__init__(app)
         self.view = CliAddTransactionView()
         self.repository = self.app.database.transaction_repository
+        self.transaction_type: Literal["expense", "income"]
 
     @override
     def run(self) -> None:
         self.view.clear_view()
         while True:
-            option = self.view.promt_transaction_type()
-
-            if option == 1:
-                type_ = "expense"
-            elif option == 2:
-                type_ = "income"
-            elif option == 3:
-                self.view.clear_view()
-                return
-            else:
-                self.view.display_error("Invalid option")
-                continue
-
-            type_ = "expense" if option == 1 else "income"
-
-            account, category, amount, comment = self.view.input_transaction()
+            try:
+                account, category, amount, comment = self.view.prompt_transaction()
+            except UserCancel:
+                break
 
             uuid_ = uuid.uuid4()
-            transaction = Transaction(
+            tx = Transaction(
                 uuid=uuid_.hex,
                 date=datetime.now(),
                 account=account,
                 amount=amount,
-                type_=type_,
+                type_=self.transaction_type,
                 category=category,
                 comment=comment,
             )
-            self.repository.insert(transaction)
+            self.repository.insert(tx)
+            self.view.display_transaction_added(tx)
+            self.view.display_line_separator()
+        self.view.clear_view()

@@ -29,14 +29,9 @@ class BaseCsvRepository(ABC):
     def enter_reader(self, mode: str = "r") -> Generator[_reader, None, None]:
         """Context manager that yields a CSV reader object.
 
-        Parameters
-        ----------
-        fp : str
-            File name of the CSV file, relative to the database path.
-
         Yields
         -------
-        csv._reader
+        `csv._reader`
             A CSV reader object with line terminator set to ";"
 
         Examples
@@ -56,7 +51,7 @@ class BaseCsvRepository(ABC):
 
         Yields
         -------
-        csv.writer
+        `csv.writer`
             A CSV writer object with line terminator set to ";"
 
         Examples
