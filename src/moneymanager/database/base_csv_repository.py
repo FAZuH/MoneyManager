@@ -1,10 +1,11 @@
 from __future__ import annotations
+
 from abc import ABC
 from abc import abstractmethod
 from contextlib import contextmanager
 import csv
 import os
-from typing import TYPE_CHECKING, Generator
+from typing import Generator, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from _typeshed import DataclassInstance
