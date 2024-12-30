@@ -1,5 +1,5 @@
 from moneymanager.database.base_csv_repository import BaseCsvRepository
-from moneymanager.database.entity.account import Account
+from moneymanager.database.model.account import Account
 from moneymanager.database.repository.repository import Repository
 
 

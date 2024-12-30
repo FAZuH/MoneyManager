@@ -1,7 +1,7 @@
 from dataclasses import asdict
 
 from moneymanager.database.base_csv_repository import BaseCsvRepository
-from moneymanager.database.entity.transaction import Transaction
+from moneymanager.database.model.transaction import Transaction
 from moneymanager.database.repository.repository import Repository
 
 

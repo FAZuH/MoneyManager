@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from moneymanager.database.entity.transaction import Transaction
+from moneymanager.database.model.transaction import Transaction
 from moneymanager.view.cli.base_cli_view import BaseCliView
 
 
