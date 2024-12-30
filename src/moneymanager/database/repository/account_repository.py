@@ -15,3 +15,7 @@ class AccountRepository(BaseCsvRepository, Repository[Account, str]):
     @property
     def filename(self) -> str:
         return "accounts.csv"
+
+    @property
+    def model(self) -> type[Account]:
+        return Account
