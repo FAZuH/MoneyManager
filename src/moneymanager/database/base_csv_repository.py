@@ -27,7 +27,10 @@ class BaseCsvRepository(ABC):
     @property
     @abstractmethod
     def model(self) -> type[DataclassInstance]:
-        """Model class of the CSV."""
+        """Model class of the CSV.
+
+        Override this with the concrete class' own model.
+        """
 
     @contextmanager
     def enter_reader(self, mode: str = "r") -> Generator[csv.DictReader, None, None]:
