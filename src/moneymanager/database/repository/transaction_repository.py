@@ -18,7 +18,7 @@ class TransactionRepository(BaseCsvRepository, Repository[Transaction, str]):
         with self.enter_writer() as writer:
             writer.writerow(row)
 
-    def update(self, entity: Transaction) -> None:
+    def update(self, identifier: str, entity: Transaction) -> None:
         pass
 
     def delete(self, identifier: str) -> None:

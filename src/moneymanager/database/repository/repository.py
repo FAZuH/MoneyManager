@@ -35,7 +35,7 @@ class Repository[T, ID](Protocol):
             If the entry already exists.
         """
 
-    def update(self, identifier, ID, entity: T) -> None:
+    def update(self, identifier: ID, entity: T) -> None:
         """Updates an entry in the database.
 
         Parameters
