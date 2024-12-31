@@ -10,7 +10,7 @@ class TransactionRepository(BaseCsvRepository, Repository[Transaction, str]):
         with self.enter_reader() as reader:
             for row in reader:
                 if row["uuid"] == identifier:
-                    return Transaction(**row)  # type: ignore
+                    return self.model(**row)  # type: ignore
         raise ValueError(f"Transaction with id {identifier} not found")
 
     def insert(self, entity: Transaction) -> None:
@@ -26,7 +26,7 @@ class TransactionRepository(BaseCsvRepository, Repository[Transaction, str]):
 
     def select_all(self) -> list[Transaction]:
         with self.enter_reader() as reader:
-            return [Transaction(**row) for row in reader]  # type: ignore
+            return [self.model(**row) for row in reader]  # type: ignore
 
     @property
     def filename(self) -> str:
