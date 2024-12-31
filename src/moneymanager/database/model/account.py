@@ -5,7 +5,7 @@ from typing import Any, Self
 @dataclass
 class Account:
     name: str
-    initial_balance: float
+    balance: float
 
     def to_list(self) -> list[Any]:
         return [self.name, self.initial_balance]
