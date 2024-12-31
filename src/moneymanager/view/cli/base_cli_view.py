@@ -28,7 +28,7 @@ class BaseCliView(ABC):
         # TODO: Display ASCII art of 'MoneyManager'
         print("Welcome to MoneyManager")
 
-    def _must_get_input[T](self, prompt: str, type_strategy: Callable[[str], T]) -> T:
+    def must_get_input[T](self, prompt: str, type_strategy: Callable[[str], T]) -> T:
         """
         Prompts the user for an input.
 
