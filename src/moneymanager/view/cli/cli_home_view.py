@@ -3,8 +3,7 @@ from moneymanager.view.cli.base_cli_view import BaseCliView
 
 class CliHomeView(BaseCliView):
     def prompt_menu(self) -> int:
-        """
-        Prompts the user to choose a menu.
+        """Prompts the user to choose a menu.
 
         Returns
         -------
@@ -19,8 +18,8 @@ class CliHomeView(BaseCliView):
             6. Exit
         """
         print(
-            "Pick an option:",
-            "---------------",
+            "Pick an option",
+            "--------------",
             "1. Add Expense",
             "2. Add Income",
             "3. Transaction History",
@@ -29,7 +28,7 @@ class CliHomeView(BaseCliView):
             "6. Exit",
             sep="\n",
         )
-        return self._must_get_input("> ", int)
+        return self.must_get_input("> ", int)
 
     def display_exit_message(self) -> None:
         print("Thank you for using MoneyManager")

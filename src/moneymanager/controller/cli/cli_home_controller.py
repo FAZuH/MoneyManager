@@ -30,8 +30,7 @@ class CliHomeController(BaseController):
                     # self.app.main_controller.run_()
                     pass
                 case 4:  # Manage account
-                    # self.app.main_controller.run_()
-                    pass
+                    self.app.main_controller.run_manage_account_controller()
                 case 5:  # Statistics
                     # self.app.main_controller.run_()
                     pass

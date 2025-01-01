@@ -5,6 +5,7 @@ from typing import override, TYPE_CHECKING
 from moneymanager.controller.base_controller import BaseController
 from moneymanager.controller.cli.cli_add_transaction_controller import CliAddTransactionController
 from moneymanager.controller.cli.cli_home_controller import CliHomeController
+from moneymanager.controller.cli.cli_manage_account_controller import CliManageAccountController
 
 if TYPE_CHECKING:
     from moneymanager.app.app import App
@@ -18,6 +19,7 @@ class MainCliController(BaseController):
         super().__init__(app)
         self._home_controller = CliHomeController(app)
         self._transaction_controller = CliAddTransactionController(app)
+        self._manage_account_controller = CliManageAccountController(app)
 
     @override
     def run(self) -> None:
@@ -33,3 +35,6 @@ class MainCliController(BaseController):
     def run_add_income_controller(self) -> None:
         self._transaction_controller.transaction_type = "income"
         self._transaction_controller.run()
+
+    def run_manage_account_controller(self) -> None:
+        self._manage_account_controller.run()
