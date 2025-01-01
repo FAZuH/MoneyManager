@@ -21,10 +21,11 @@ class CliManageAccountController(BaseController):
         self._view.clear_view()
         # show accounts
         self._display_all_accounts()
+        self._view.display_line_separator()
         # prompt action to take
-        action = self._view.prompt_action()
 
         while True:
+            action = self._view.prompt_action()
             self._view.display_line_separator()
             match action:
                 case 1:
@@ -44,7 +45,7 @@ class CliManageAccountController(BaseController):
 
         self._repository.insert(model)
 
-        self._view.display_message(f"Successfully added account {name} with balance ${balance}")
+        self._view.display_message(f"\nSuccessfully added account {name} with balance ${balance}")
 
     def _edit_account(self) -> None:
         self._display_all_accounts()
