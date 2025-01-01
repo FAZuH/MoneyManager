@@ -19,10 +19,20 @@ class TransactionRepository(BaseCsvRepository, Repository[Transaction, str]):
             writer.writerow(row)
 
     def update(self, identifier: str, entity: Transaction) -> None:
-        pass
+        with self.enter_reader() as reader:
+            rows = [row for row in reader]
+        with self.enter_writer("w") as writer:
+            for row in rows:
+                if row["uuid"] == identifier:
+                    row = asdict(entity)
+                writer.writerow(row)
 
     def delete(self, identifier: str) -> None:
-        pass
+        with self.enter_reader() as reader:
+            rows = [row for row in reader if row["uuid"] != identifier]
+        with self.enter_writer("w") as writer:
+            for row in rows:
+                writer.writerow(row)
 
     def select_all(self) -> list[Transaction]:
         with self.enter_reader() as reader:
