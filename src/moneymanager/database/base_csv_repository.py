@@ -36,8 +36,13 @@ class BaseCsvRepository(ABC):
     def enter_reader(self, mode: str = "r") -> Generator[csv.DictReader, None, None]:
         """Context manager that yields a CSV reader object.
 
+        Parameters
+        ----------
+        mode : `str`
+            The mode to open the file in. Defaults to "r".
+
         Yields
-        -------
+        ------
         `csv._reader`
             A CSV reader object with line terminator set to ";"
 
@@ -46,7 +51,6 @@ class BaseCsvRepository(ABC):
         >>> with obj.enter_reader() as reader:
         ...     for row in reader:
         ...         print(row)
-
         """
         with open(self._csv_path, mode, newline="") as stream:
             reader = csv.DictReader(stream, fieldnames=self._fieldnames, lineterminator=";\n")
@@ -56,8 +60,13 @@ class BaseCsvRepository(ABC):
     def enter_writer(self, mode: str = "a") -> Generator[csv.DictWriter, None, None]:
         """Context manager that yields a CSV writer object.
 
+        Parameters
+        ----------
+        mode : `str`
+            The mode to open the file in. Defaults to "a".
+
         Yields
-        -------
+        ------
         `csv.writer`
             A CSV writer object with line terminator set to ";"
 
