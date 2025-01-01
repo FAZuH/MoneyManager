@@ -29,6 +29,7 @@ class CliManageAccountView(BaseCliView):
             "2. Edit account",
             "3. Delete account",
             "4. Back",
+            sep="\n",
         )
         ret = self.must_get_input("> ", int)
         return ret
