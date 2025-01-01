@@ -15,18 +15,22 @@ class BaseCliView(ABC):
         else:
             os.system("clear")
 
+    def display_message(self, *message: str, sep: str = " ", end: str = "\n") -> None:
+        """Displays a message to the user."""
+        print(*message, sep=sep, end=end)
+
     def display_error(self, message: str) -> None:
         """Displays an error message to the user."""
-        print(f"Error: {message}")
+        self.display_message(f"Error: {message}")
 
     def display_line_separator(self, length: int = 80) -> None:
         """Displays a line separator to the user."""
-        print("-" * length)
+        self.display_message("-" * length)
 
     def display_welcome(self) -> None:
         """Displays a welcome message to the user."""
         # TODO: Display ASCII art of 'MoneyManager'
-        print("Welcome to MoneyManager")
+        self.display_message("Welcome to MoneyManager")
 
     def must_get_input[T](self, prompt: str, type_strategy: Callable[[str], T]) -> T:
         """
@@ -66,4 +70,4 @@ class BaseCliView(ABC):
             try:
                 return type_strategy(inpt)
             except ValueError:
-                print("Please enter a valid input.")
+                self.display_message("Please enter a valid input.")
