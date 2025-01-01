@@ -7,5 +7,5 @@ class Account:
     balance: float
 
     def __post_init__(self) -> None:
-        if not isinstance(self.initial_balance, float):
-            self.initial_balance = float(self.initial_balance)
+        if not isinstance(self.balance, float):
+            self.balance = float(self.balance)
