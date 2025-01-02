@@ -54,6 +54,7 @@ class BaseCsvRepository(ABC):
         """
         with open(self._csv_path, mode, newline="") as stream:
             reader = csv.DictReader(stream, fieldnames=self._fieldnames, lineterminator=";\n")
+            next(reader)  # Skip the header
             yield reader
 
     @contextmanager

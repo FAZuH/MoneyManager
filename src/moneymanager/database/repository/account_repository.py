@@ -13,7 +13,7 @@ class AccountRepository(BaseCsvRepository, Repository[Account, str]):
     def delete(self, identifier: str) -> None: ...
     def select_all(self) -> list[Account]:
         with self.enter_reader() as reader:
-            return [self.model(**row) for row in list(reader)[1:]]  # type: ignore
+            return [self.model(**row) for row in reader]  # type: ignore
 
     @property
     def filename(self) -> str:
