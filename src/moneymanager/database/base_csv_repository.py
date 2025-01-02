@@ -1,3 +1,5 @@
+"""Base CSV repository module."""
+
 from __future__ import annotations
 
 from abc import ABC
@@ -12,11 +14,56 @@ if TYPE_CHECKING:
 
 
 class BaseCsvRepository(ABC):
+    """Abstract base class of a CSV repository.
+
+    Extend this class to create a concrete CSV repository. The concrete class should
+    implement the `filename` and `model` abstract properties. The `filename` property
+    should return the name of the CSV file, while the `model` property should return
+    the dataclass model of the CSV file.
+
+    Examples
+    --------
+    ```python
+    from dataclasses import dataclass
+
+    from moneymanager.database.base_csv_repository import BaseCsvRepository
+
+
+    class ConcreteCsvRepository(BaseCsvRepository):
+        @property
+        def filename(self):
+            return "concrete.csv"
+
+        @property
+        def model(self):
+            return ConcreteModel
+
+
+    @dataclass
+    class ConcreteModel:
+        column1: str
+        column2: int
+    ```
+
+    You can then use the concrete repository like this:
+
+    >>> concrete_repo = ConcreteCsvRepository()
+    >>> with concrete_repo.enter_writer() as writer:
+    ...     writer.writeheader()
+    ...     writer.writerow({'column1': 'value1', 'column2': 1})
+    >>> with concrete_repo.enter_reader() as reader:
+    ...     for row in reader:
+    ...         print(row)
+    """
+
     def __init__(self) -> None:
         self._base_dir = "userdata"
         self._base_path = os.path.join(os.getcwd(), self._base_dir)
+        """Path of the base CSV directory."""
         self._csv_path = os.path.join(self._base_path, self.filename)
+        """Path of the CSV file."""
         self._fieldnames = [k for k in self.model.__dataclass_fields__]
+        """Field/column names of the CSV file."""
         self._init_path()
 
     @property
@@ -43,12 +90,12 @@ class BaseCsvRepository(ABC):
 
         Yields
         ------
-        `csv._reader`
-            A CSV reader object with line terminator set to ";"
+        `DictReader`
+            A `DictReader` object from `csv` library.
 
         Examples
         --------
-        >>> with obj.enter_reader() as reader:
+        >>> with concrete_repo.enter_reader() as reader:
         ...     for row in reader:
         ...         print(row)
         """
@@ -67,14 +114,13 @@ class BaseCsvRepository(ABC):
 
         Yields
         ------
-        `csv.writer`
-            A CSV writer object with line terminator set to ";"
+        `DictWriter`
+            A `DictWriter` object from `csv` library.
 
         Examples
         --------
-        >>> with obj.enter_writer() as writer:
-        ...     writer.writerow(['column1', 'column2'])
-        ...     writer.writerow(['data1', 'data2'])
+        >>> with concrete_repo.enter_writer() as writer:
+        ...     writer.writerow({'column1': value1, 'column2': value2})
         """
         with open(self._csv_path, mode, newline="") as stream:
             writer = csv.DictWriter(stream, fieldnames=self._fieldnames, lineterminator=";\n")
@@ -82,7 +128,6 @@ class BaseCsvRepository(ABC):
 
     def _init_path(self) -> None:
         """Checks if the csv file exists, and create if not."""
-        # NOTE: Remove this shit
         os.makedirs(self._base_path, exist_ok=True)
         if os.path.exists(self._csv_path):
             return
