@@ -4,7 +4,6 @@ from uuid import uuid4
 import pytest
 from tests.unit.base_repository_test import BaseRepositoryTest
 
-from moneymanager.database.model.transaction import Transaction
 from moneymanager.database.repository.transaction_repository import (
     TransactionRepository,
 )
@@ -27,7 +26,7 @@ class TestTransactionRepository(BaseRepositoryTest):
         }
 
     def test_select(self, repo):
-        test_entity = Transaction(**self.test_data)
+        test_entity = repo.model(**self.test_data)
         repo.insert(test_entity)
         
         result = repo.select(test_entity.uuid)
@@ -40,17 +39,17 @@ class TestTransactionRepository(BaseRepositoryTest):
             repo.select("nonexistent")
     
     def test_update(self, repo):
-        test_entity = Transaction(**self.test_data)
+        test_entity = repo.model(**self.test_data)
         repo.insert(test_entity)
         
-        updated = Transaction(**{**self.test_data, "amount": "100.00"})
+        updated = repo.model(**{**self.test_data, "amount": "100.00"})
         repo.update(test_entity.uuid, updated)
         
         result = repo.select(test_entity.uuid)
         assert result.amount == 100.00
     
     def test_delete(self, repo):
-        test_entity = Transaction(**self.test_data)
+        test_entity = repo.model(**self.test_data)
         repo.insert(test_entity)
         
         repo.delete(test_entity.uuid)
@@ -58,12 +57,12 @@ class TestTransactionRepository(BaseRepositoryTest):
             repo.select(test_entity.uuid)
     
     def test_select_all(self, repo):
-        test_entity1 = Transaction(**self.test_data)
-        test_entity2 = Transaction(**{**self.test_data, "uuid": str(uuid4())})
+        test_entity1 = repo.model(**self.test_data)
+        test_entity2 = repo.model(**{**self.test_data, "uuid": str(uuid4())})
         
         repo.insert(test_entity1)
         repo.insert(test_entity2)
         
         results = repo.select_all()
         assert len(results) == 2
-        assert all(isinstance(r, Transaction) for r in results)
+        assert all(isinstance(r, repo.model) for r in results)
