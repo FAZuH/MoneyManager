@@ -56,8 +56,8 @@ class BaseCsvRepository(ABC):
     ...         print(row)
     """
 
-    def __init__(self) -> None:
-        self._base_dir = "userdata"
+    def __init__(self, base_dir: str = "userdata") -> None:
+        self._base_dir = base_dir
         self._base_path = os.path.join(os.getcwd(), self._base_dir)
         """Path of the base CSV directory."""
         self._csv_path = os.path.join(self._base_path, self.filename)
@@ -100,8 +100,11 @@ class BaseCsvRepository(ABC):
         ...         print(row)
         """
         with open(self._csv_path, mode, newline="") as stream:
-            reader = csv.DictReader(stream, fieldnames=self._fieldnames, lineterminator=";\n")
-            next(reader)  # Skip the header
+            reader = csv.DictReader(stream, fieldnames=self._fieldnames)
+            try:
+                next(reader)  # Skip the header
+            except StopIteration:
+                pass
             yield reader
 
     @contextmanager
@@ -124,7 +127,7 @@ class BaseCsvRepository(ABC):
         ...     writer.writerow({'column1': value1, 'column2': value2})
         """
         with open(self._csv_path, mode, newline="") as stream:
-            writer = csv.DictWriter(stream, fieldnames=self._fieldnames, lineterminator=";\n")
+            writer = csv.DictWriter(stream, fieldnames=self._fieldnames)
             yield writer
 
     def _init_path(self) -> None:
