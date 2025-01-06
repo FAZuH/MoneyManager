@@ -16,6 +16,8 @@ class TransactionRepository(BaseCsvRepository, Repository[Transaction, str]):
         raise ValueError(f"Transaction with id {identifier} not found")
 
     def insert(self, entity: Transaction) -> None:
+        if self.find(entity.uuid):
+            raise ValueError(f"Transaction with id {entity.uuid} already exists")
         row = asdict(entity)
         with self.enter_writer() as writer:
             writer.writerow(row)
