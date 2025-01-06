@@ -7,32 +7,42 @@ Simple CLI-based app to manage your expenses and income.
 - [Table of Contents](#table-of-contents)
 - [Install](#install)
 - [Usage](#usage)
+- [With uv](#with-uv)
+    - [Usage](#usage-1)
+    - [Testing](#testing)
 - [Features](#features)
+- [Contributing](#contributing)
 - [License](#license)
+
+## Prerequisites
+
+- [Python](https://www.python.org/downloads/) 3.12 or later
+- [Git](https://git-scm.com/downloads)
+- Optional: [uv](https://docs.astral.sh/uv/getting-started/installation/#standalone-installer)
 
 ## Install
 
-1. Clone repository from GitHub
+1. Clone this repository from GitHub
 
-```sh
-git clone https://github.com/FAZuH/MoneyManager.git
-```
+    ```sh
+    git clone https://github.com/FAZuH/MoneyManager.git
+    ```
 
 2. Download application dependencies
 
-```sh
-cd MoneyManage  # Change working directory into where you installed MoneyManagerr
+    ```sh
+    cd MoneyManager  # Change working directory into where you installed MoneyManagerr
 
-python -m venv .venv
+    python -m venv .venv
 
-# On Windows
-.\venv\Scripts\activate.bat
+    # On Windows
+    .\venv\Scripts\activate.bat
 
-# On Unix or MacOS
-source .venv/bin/activate
+    # On Unix or MacOS
+    source .venv/bin/activate
 
-pip install .
-```
+    pip install .
+    ```
 
 ## Usage
 
@@ -52,9 +62,21 @@ pip install .
 
 2. Run the application
 
-```sh
-python -m moneymanager
-```
+    ```sh
+    python -m moneymanager
+    ```
+
+## With uv
+
+### Usage
+
+1. Open a terminal in the project root directory
+2. Run `uv run moneymanager`
+
+### Testing
+
+1. Open a terminal in the project root directory
+2. Run `uv run pytest`
 
 ## Features
 
