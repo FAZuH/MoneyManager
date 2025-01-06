@@ -1,21 +1,22 @@
-
-from abc import ABC, abstractmethod
+from abc import ABC
+from abc import abstractmethod
 import os
 from typing import Any, Type
 
 import pytest
+
 
 class BaseRepositoryTest(ABC):
     @property
     @abstractmethod
     def repository_class(self) -> Type:
         """Return the concrete repository class to test"""
-        
+
     @property
     @abstractmethod
     def test_data(self) -> dict[str, Any]:
         """Return sample data matching the repository's model"""
-    
+
     @pytest.fixture
     def repo(self):
         repo = self.repository_class("userdata_test")
@@ -30,10 +31,10 @@ class BaseRepositoryTest(ABC):
         assert os.path.exists(repo._csv_path)
 
     def test_write_and_read(self, repo):
-        with repo.enter_writer('w') as writer:
+        with repo.enter_writer("w") as writer:
             writer.writeheader()
             writer.writerow(self.test_data)
-        
+
         with repo.enter_reader() as reader:
             rows = list(reader)
             assert len(rows) == 1
