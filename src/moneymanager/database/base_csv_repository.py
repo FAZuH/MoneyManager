@@ -56,8 +56,8 @@ class BaseCsvRepository(ABC):
     ...         print(row)
     """
 
-    def __init__(self) -> None:
-        self._base_dir = "userdata"
+    def __init__(self, base_dir: str = "userdata") -> None:
+        self._base_dir = base_dir
         self._base_path = os.path.join(os.getcwd(), self._base_dir)
         """Path of the base CSV directory."""
         self._csv_path = os.path.join(self._base_path, self.filename)
