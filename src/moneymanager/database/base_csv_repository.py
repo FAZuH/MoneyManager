@@ -100,8 +100,11 @@ class BaseCsvRepository(ABC):
         ...         print(row)
         """
         with open(self._csv_path, mode, newline="") as stream:
-            reader = csv.DictReader(stream, fieldnames=self._fieldnames, lineterminator=";\n")
-            next(reader)  # Skip the header
+            reader = csv.DictReader(stream, fieldnames=self._fieldnames)
+            try:
+                next(reader)  # Skip the header
+            except StopIteration:
+                pass
             yield reader
 
     @contextmanager
@@ -124,7 +127,7 @@ class BaseCsvRepository(ABC):
         ...     writer.writerow({'column1': value1, 'column2': value2})
         """
         with open(self._csv_path, mode, newline="") as stream:
-            writer = csv.DictWriter(stream, fieldnames=self._fieldnames, lineterminator=";\n")
+            writer = csv.DictWriter(stream, fieldnames=self._fieldnames)
             yield writer
 
     def _init_path(self) -> None:
