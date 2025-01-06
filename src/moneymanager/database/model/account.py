@@ -8,4 +8,4 @@ class Account:
 
     def __post_init__(self) -> None:
         if isinstance(self.balance, str):
-            self.balance = float(self.balance.strip(";"))
+            self.balance = float(self.balance)
