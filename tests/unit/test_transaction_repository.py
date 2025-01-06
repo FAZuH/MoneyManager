@@ -24,7 +24,7 @@ class TestTransactionRepository(BaseRepositoryTest):
             "comment": "Lunch",
         }
 
-    def test_select(self, repo):
+    def test_insert_and_select(self, repo):
         test_entity = repo.model(**self.test_data)
         repo.insert(test_entity)
 
@@ -32,10 +32,6 @@ class TestTransactionRepository(BaseRepositoryTest):
         assert result.uuid == test_entity.uuid
         assert result.amount == 42.50
         assert isinstance(result.date, datetime)
-
-    def test_select_not_found(self, repo):
-        with pytest.raises(ValueError):
-            repo.select("nonexistent")
 
     def test_update(self, repo):
         test_entity = repo.model(**self.test_data)

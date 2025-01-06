@@ -40,3 +40,22 @@ class BaseRepositoryTest(ABC):
             assert len(rows) == 1
             for key, value in self.test_data.items():
                 assert str(value) == rows[0][key]
+
+    def test_insert_duplicate(self, repo):
+        test_entity = repo.model(**self.test_data)
+        repo.insert(test_entity)
+
+        with pytest.raises(ValueError):
+            repo.insert(test_entity)
+
+    def test_select_not_found(self, repo):
+        with pytest.raises(ValueError):
+            repo.select("nonexistent")
+
+    def test_update_not_found(self, repo):
+        with pytest.raises(ValueError):
+            repo.update("nonexistent", repo.model(**self.test_data))
+
+    def test_delete_not_found(self, repo):
+        with pytest.raises(ValueError):
+            repo.delete("nonexistent")
