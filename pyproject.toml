@@ -10,7 +10,7 @@ version = "0.1.0"
 description = "Application to manage your expenses and incomes"
 readme = "README.md"
 license = {file = "LICENSE"}
-requires-python = ">=3.13"
+requires-python = ">=3.12"
 authors = [
     { name = "FAZuH", email = "fazuhhh@proton.me" },
     { name = "AdrianSPratama" },
@@ -36,7 +36,6 @@ where = ["src"]
 # Common
 [dependency-groups]
 dev = [
-    "alembic>=1.14.0",
     "black>=24.10.0",
     "pytest>=8.3.3",
     "isort>=5.13.2",
