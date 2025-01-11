@@ -25,24 +25,41 @@ class AccountRepository(BaseCsvRepository, Repository[Account, str]):
             writer.writerow({"name": entity.name, "balance": entity.balance})
 
     def update(self, identifier: str, entity: Account) -> None: 
+        available = False
         with self.enter_reader() as reader:
             rows = list(reader)
+            print(rows)
             for i in range(len(rows)):
                 if rows[i]["name"] == identifier: # If found
-                    with self.enter_writer() as writer:
-                        writer.writerow({"name": entity.name, "balance": entity.balance})
-        # If the account doesn't exist
-        raise ValueError(f"Account with name {identifier} is not exist!")
+                    available = True
+                    rows[i]["name"] = entity.name # Overwrite the new name to the row list
+                    rows[i]["balance"] = entity.balance # Overwrite the new balance to the row list
+            # print(rows)
+  
+        if available:
+            with self.enter_writer(mode='w') as writer:
+                writer.writeheader()
+                writer.writerows(rows)
+                return
+        else: 
+            # If the account doesn't exist
+            raise ValueError(f"Account with name {identifier} is not exist!")
 
     def delete(self, identifier: str) -> None:
+        available = False
         with self.enter_reader() as reader:
             rows = list(reader)
-            for i in range(len(rows)):
-                if rows[i]["name"] == identifier: # If found
-                    with self.enter_writer() as writer:
-                        writer.writerow({"name": None, "balance": None})
-        # If the account doesn't exist
-        raise ValueError(f"Account with name {identifier} is not exist!")
+            with self.enter_writer('w') as writer:
+                for i in range(len(rows)):
+                    if rows[i]["name"] != identifier: # If found
+                        writer.writerow({"name": rows[i]["name"], "balance": rows[i]["balance"]})
+                    else:
+                        available = True
+        
+        if available:
+            return
+        else:  # If the account doesn't exists
+            raise ValueError(f"Account with name {identifier} is not exist!")
 
     def select_all(self) -> list[Account]:
         with self.enter_reader() as reader:
