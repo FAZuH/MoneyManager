@@ -166,6 +166,3 @@ cython_debug/
 # Custom
 userdata/accounts.csv
 userdata/transaction_history.csv
-uv.lock
-uv.lock
-uv.lock
