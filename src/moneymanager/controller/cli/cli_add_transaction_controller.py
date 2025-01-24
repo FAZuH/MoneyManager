@@ -15,7 +15,6 @@ if TYPE_CHECKING:
 
 class CliAddTransactionController(BaseController):
     def __init__(self, app: App) -> None:
-
         super().__init__(app)
         self.view = CliAddTransactionView()
         self.repository = self.app.database.transaction_repository
