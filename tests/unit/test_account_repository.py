@@ -1,5 +1,3 @@
-from dataclasses import asdict
-
 import pytest
 
 from moneymanager.database.repository.account_repository import AccountRepository

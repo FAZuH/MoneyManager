@@ -1,7 +1,5 @@
-import csv
 from dataclasses import dataclass
 import os
-from typing import Generator
 
 import pytest
 
@@ -46,7 +44,7 @@ def test_fieldnames_match_model(repo):
 
 
 def test_writer_creates_header(repo):
-    with repo.enter_writer("w") as writer:
+    with repo._enter_writer("w") as writer:
         writer.writeheader()
 
     with open(repo._csv_path, "r") as f:
@@ -57,11 +55,10 @@ def test_writer_creates_header(repo):
 def test_write_and_read_row(repo):
     test_data = {"name": "test", "value": 42}
 
-    with repo.enter_writer("w") as writer:
-        writer.writeheader()
+    with repo._enter_writer("w") as writer:
         writer.writerow(test_data)
 
-    with repo.enter_reader() as reader:
+    with repo._enter_reader() as reader:
         rows = list(reader)
         assert len(rows) == 1
         assert rows[0]["name"] == test_data["name"]
@@ -71,14 +68,13 @@ def test_write_and_read_row(repo):
 def test_append_mode(repo):
     data = [{"name": "first", "value": 1}, {"name": "second", "value": 2}]
 
-    with repo.enter_writer("w") as writer:
-        writer.writeheader()
+    with repo._enter_writer("w") as writer:
         writer.writerow(data[0])
 
-    with repo.enter_writer("a") as writer:
+    with repo._enter_writer("a") as writer:
         writer.writerow(data[1])
 
-    with repo.enter_reader() as reader:
+    with repo._enter_reader() as reader:
         rows = list(reader)
         assert len(rows) == 2
         assert rows[0]["name"] == "first"
