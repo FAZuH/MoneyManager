@@ -27,12 +27,11 @@ class CliAddTransactionController(BaseController):
             try:
                 print("Input the transaction information, or enter 'cancel' to return to main menu:")
                 account = self.view.must_get_input("Input account: ", str)
+                self.app.database.account_repository.select(account) # Check if the account with name {account} is available
+
                 category = self.view.must_get_input("Input category: ", str)
                 amount = self.view.must_get_input("Input amount: ", float)
                 comment = self.view.must_get_input("Input comment: ", str)
-                
-                # Check if the account with name {account} is available
-                self.app.database.account_repository.select(account)
             except UserCancel:
                 break
             except ValueError: # If the account does't exist
