@@ -62,7 +62,7 @@ class BaseCliView(ABC):
             inpt = input(prompt)
 
             if inpt == "exit":
-                raise UserExit()
+                raise UserExit
 
             if inpt == "cancel":
                 raise UserCancel
