@@ -10,8 +10,8 @@ from dataclasses import asdict
 import os
 from typing import Generator, override
 
-from moneymanager.database.repository.repository import Repository
 from moneymanager.database.model.model import Model
+from moneymanager.database.repository.repository import Repository
 
 
 class BaseCsvRepository[ID](ABC, Repository[ID]):

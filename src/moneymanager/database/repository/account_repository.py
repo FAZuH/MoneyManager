@@ -1,4 +1,5 @@
 from typing import override
+
 from moneymanager.database.base_csv_repository import BaseCsvRepository
 from moneymanager.database.model.account import Account
 
