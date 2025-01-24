@@ -1,8 +1,10 @@
 from typing import Protocol
 
+from moneymanager.database.model.model import Model
 
-class Repository[T, ID](Protocol):
-    def select(self, identifier: ID) -> T:
+
+class Repository[ID](Protocol):
+    def select(self, identifier: ID) -> Model[ID]:
         """Selects an entry from the database.
 
         Parameters
@@ -22,7 +24,7 @@ class Repository[T, ID](Protocol):
         """
         ...
 
-    def insert(self, entity: T) -> None:
+    def insert(self, entity: Model[ID]) -> None:
         """Inserts a new entry into the database.
 
         Parameters
@@ -37,7 +39,7 @@ class Repository[T, ID](Protocol):
         """
         ...
 
-    def update(self, identifier: ID, entity: T) -> None:
+    def update(self, identifier: ID, entity: Model[ID]) -> None:
         """Updates an entry in the database.
 
         Parameters
@@ -66,5 +68,30 @@ class Repository[T, ID](Protocol):
         ------
         `ValueError`
             If the entry with the given identifier does not exist.
+        """
+        ...
+
+    def select_all(self) -> list[Model[ID]]:
+        """Selects all entries from the database.
+
+        Returns
+        -------
+        `List[T]`
+            A list of all entries in the database.
+        """
+        ...
+
+    def exists(self, identifier: ID) -> bool:
+        """Checks if an entry exists in the database.
+
+        Parameters
+        ----------
+        identifier : `ID`
+            The unique identifier of the entry to check.
+
+        Returns
+        -------
+        `bool`
+            `True` if the entry exists, `False` otherwise.
         """
         ...

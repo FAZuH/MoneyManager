@@ -6,14 +6,15 @@ from abc import ABC
 from abc import abstractmethod
 from contextlib import contextmanager
 import csv
+from dataclasses import asdict
 import os
-from typing import Generator, TYPE_CHECKING
+from typing import Generator, override
 
-if TYPE_CHECKING:
-    from _typeshed import DataclassInstance
+from moneymanager.database.repository.repository import Repository
+from moneymanager.database.model.model import Model
 
 
-class BaseCsvRepository(ABC):
+class BaseCsvRepository[ID](ABC, Repository[ID]):
     """Abstract base class of a CSV repository.
 
     Extend this class to create a concrete CSV repository. The concrete class should
@@ -29,6 +30,21 @@ class BaseCsvRepository(ABC):
     from moneymanager.database.base_csv_repository import BaseCsvRepository
 
 
+    @dataclass
+    class ConcreteModel(Model[str]):
+        id: int
+        col1: str
+        col2: int
+
+        @property
+        def primary_key(self):
+            return self.id
+
+        @classmethod
+        def primary_field(cls):
+            return "id"
+
+
     class ConcreteCsvRepository(BaseCsvRepository):
         @property
         def filename(self):
@@ -37,23 +53,20 @@ class BaseCsvRepository(ABC):
         @property
         def model(self):
             return ConcreteModel
-
-
-    @dataclass
-    class ConcreteModel:
-        column1: str
-        column2: int
     ```
 
     You can then use the concrete repository like this:
 
     >>> concrete_repo = ConcreteCsvRepository()
-    >>> with concrete_repo.enter_writer() as writer:
-    ...     writer.writeheader()
-    ...     writer.writerow({'column1': 'value1', 'column2': 1})
-    >>> with concrete_repo.enter_reader() as reader:
-    ...     for row in reader:
-    ...         print(row)
+    >>> concrete_repo.insert(ConcreteModel(1, "value1", 100))
+    >>> concrete_repo.select(1)
+    ConcreteModel(id=1, col1='value1', col2=100)
+    >>> concrete_repo.update(1, ConcreteModel(1, "value2", 200))
+    >>> concrete_repo.select(1)
+    ConcreteModel(id=1, col1='value2', col2=200)
+    >>> concrete_repo.delete(1)
+    >>> concrete_repo.select(1)
+    ValueError: Model with key 1 is not found.
     """
 
     def __init__(self, base_dir: str = "userdata") -> None:
@@ -73,11 +86,77 @@ class BaseCsvRepository(ABC):
 
     @property
     @abstractmethod
-    def model(self) -> type[DataclassInstance]:
-        """Model class of the CSV.
+    def model(self) -> type[Model[ID]]:
+        """Model class of the repository."""
 
-        Override this with the concrete class' own model.
-        """
+    @override
+    def select(self, identifier: ID) -> Model[ID]:
+        with self._enter_reader() as reader:
+            for row in reader:
+                if row[self.model.primary_field()] == identifier:
+                    return self.model(**row)
+
+        # If account with name identifier not found
+        raise ValueError(f"Account with name {identifier} not found")
+
+    @override
+    def insert(self, entity: Model[ID]) -> None:  # Method for inserting a new account
+        with self._enter_reader() as reader:
+            for row in reader:
+                if row[self.model.primary_field()] == entity.primary_key:
+                    # If account name is already exist
+                    raise ValueError(f"Model with key {entity.primary_field} is already exists.")
+
+        # The account hasn't been created
+        with self._enter_writer() as writer:
+            writer.writerow(asdict(entity))
+
+    @override
+    def update(self, identifier: ID, entity: Model[ID]) -> None:
+        new_rows = []
+        found = False
+        with self._enter_reader() as reader:
+            for row in reader:
+                if row[self.model.primary_field()] == identifier:
+                    assert found is False, f"Found duplicate row with key {identifier}."
+                    found = True
+                    row = asdict(entity)
+                new_rows.append(row)
+
+        if found is False:
+            raise ValueError(f"Model with key {identifier} is not found.")
+
+        with self._enter_writer(mode="w") as writer:
+            writer.writerows(new_rows)
+
+    @override
+    def delete(self, identifier: ID) -> None:
+        found = False
+        with self._enter_reader() as reader:
+            rows = list(reader)
+
+        with self._enter_writer("w") as writer:
+            for row in rows:
+                if row[self.model.primary_field()] != identifier:
+                    writer.writerow(row)
+                else:
+                    found = True
+
+        if found is False:
+            raise ValueError(f"Model with key {identifier} is not found.")
+
+    @override
+    def select_all(self) -> list[Model[ID]]:
+        with self._enter_reader() as reader:
+            return [self.model(**row) for row in reader]  # type: ignore
+
+    @override
+    def exists(self, identifier: ID) -> bool:
+        with self._enter_reader() as reader:
+            for row in reader:
+                if row[self.model.primary_field()] == identifier:
+                    return True
+        return False
 
     @contextmanager
     def _enter_reader(self, mode: str = "r") -> Generator[csv.DictReader, None, None]:
@@ -101,10 +180,10 @@ class BaseCsvRepository(ABC):
         """
         with open(self._csv_path, mode, newline="") as stream:
             reader = csv.DictReader(stream, fieldnames=self._fieldnames)
-            try:
-                next(reader)  # Skip the header
-            except StopIteration:
-                pass
+            # try:
+            #     next(reader)  # Skip the header
+            # except StopIteration:
+            #     pass
             yield reader
 
     @contextmanager
@@ -135,5 +214,5 @@ class BaseCsvRepository(ABC):
         os.makedirs(self._base_path, exist_ok=True)
         if os.path.exists(self._csv_path):
             return
-        with self._enter_writer() as writer:
-            writer.writeheader()
+        with self._enter_writer():
+            pass
