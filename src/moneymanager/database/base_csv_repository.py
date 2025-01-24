@@ -80,7 +80,7 @@ class BaseCsvRepository(ABC):
         """
 
     @contextmanager
-    def enter_reader(self, mode: str = "r") -> Generator[csv.DictReader, None, None]:
+    def _enter_reader(self, mode: str = "r") -> Generator[csv.DictReader, None, None]:
         """Context manager that yields a CSV reader object.
 
         Parameters
@@ -108,7 +108,7 @@ class BaseCsvRepository(ABC):
             yield reader
 
     @contextmanager
-    def enter_writer(self, mode: str = "a") -> Generator[csv.DictWriter, None, None]:
+    def _enter_writer(self, mode: str = "a") -> Generator[csv.DictWriter, None, None]:
         """Context manager that yields a CSV writer object.
 
         Parameters
@@ -135,5 +135,5 @@ class BaseCsvRepository(ABC):
         os.makedirs(self._base_path, exist_ok=True)
         if os.path.exists(self._csv_path):
             return
-        with self.enter_writer() as writer:
+        with self._enter_writer() as writer:
             writer.writeheader()

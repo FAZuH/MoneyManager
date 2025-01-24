@@ -7,27 +7,27 @@ from moneymanager.database.repository.repository import Repository
 
 class TransactionRepository(BaseCsvRepository, Repository[Transaction, str]):
     def select(self, identifier: str) -> Transaction:
-        with self.enter_reader() as reader:
+        with self._enter_reader() as reader:
             for row in reader:
                 if row["uuid"] == identifier:
                     return self.model(**row)  # type: ignore
         raise ValueError(f"Transaction with id {identifier} not found")
 
     def insert(self, entity: Transaction) -> None:
-        with self.enter_reader() as reader:
+        with self._enter_reader() as reader:
             rows = list(reader)  # Turns into a list
             for i in range(len(rows)):
                 if rows[i]["uuid"] == entity.uuid:  # If account name is already exist
                     raise ValueError(f"Transaction with id {entity.uuid} is already exist!")
         # If the account hasn't been created
         new = asdict(entity)  # Turn into dictionary
-        with self.enter_writer() as writer:
+        with self._enter_writer() as writer:
             writer.writerow(new)
             return
 
     def update(self, identifier: str, entity: Transaction) -> None:
         available = False
-        with self.enter_reader() as reader:
+        with self._enter_reader() as reader:
             rows = list(reader)
             for i in range(len(rows)):
                 if rows[i]["uuid"] == identifier:
@@ -40,7 +40,7 @@ class TransactionRepository(BaseCsvRepository, Repository[Transaction, str]):
                     available = True
 
         if available:
-            with self.enter_writer("w") as writer:
+            with self._enter_writer("w") as writer:
                 writer.writeheader()
                 writer.writerows(rows)
         else:
@@ -48,8 +48,8 @@ class TransactionRepository(BaseCsvRepository, Repository[Transaction, str]):
 
     def delete(self, identifier: str) -> None:
         available = False  # for checking availablity
-        with self.enter_reader() as reader:
-            with self.enter_writer("w") as writer:
+        with self._enter_reader() as reader:
+            with self._enter_writer("w") as writer:
                 for row in reader:
                     if row["uuid"] != identifier:  # If not the same uuid as identifier, write it
                         writer.writerow(row)
@@ -62,7 +62,7 @@ class TransactionRepository(BaseCsvRepository, Repository[Transaction, str]):
             raise ValueError(f"Transaction with id {identifier} is not exist!")
 
     def select_all(self) -> list[Transaction]:
-        with self.enter_reader() as reader:
+        with self._enter_reader() as reader:
             return [self.model(**row) for row in reader]  # type: ignore
 
     @property
