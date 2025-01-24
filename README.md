@@ -11,7 +11,7 @@ Simple CLI-based app to manage your expenses and income.
     - [Usage](#usage-1)
     - [Testing](#testing)
 - [Features](#features)
-- [Contributing](#contributing)
+- [Contributors](#contributors)
 - [License](#license)
 
 ## Prerequisites
@@ -80,7 +80,9 @@ Simple CLI-based app to manage your expenses and income.
 
 ## Features
 
-## Contributing
+## Contributors
+
+![Contributors](https://contrib.rocks/image?repo=FAZuH/MoneyManager)
 
 ## License
 
