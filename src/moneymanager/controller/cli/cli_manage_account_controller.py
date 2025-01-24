@@ -3,8 +3,8 @@ from __future__ import annotations
 from typing import override, TYPE_CHECKING
 
 from moneymanager.controller.base_controller import BaseController
-from moneymanager.view.cli.cli_manage_account_view import CliManageAccountView
 from moneymanager.exception import UserCancel
+from moneymanager.view.cli.cli_manage_account_view import CliManageAccountView
 
 if TYPE_CHECKING:
     from moneymanager.app.app import App
@@ -38,7 +38,7 @@ class CliManageAccountController(BaseController):
                         self._delete_account()
                     case 4:
                         return
-            except UserCancel: # For exeption UserCancel (user typing "cancel" to cancel option)
+            except UserCancel:  # For exeption UserCancel (user typing "cancel" to cancel option)
                 return
 
     def _add_account(self) -> None:
@@ -55,13 +55,13 @@ class CliManageAccountController(BaseController):
         self._display_all_accounts()
 
         self._view.display_message("Enter account to edit:")
-        
+
         name = self._view.prompt_account_name()
-        
+
         self._view.display_line_separator()
 
         # TODO: handle invalid account
-        try: # Try exept for account with name (name) doesn't exist
+        try:  # Try exept for account with name (name) doesn't exist
             model = self._repository.select(name)
         except ValueError:
             print(f"The account with name {name} doesn't exist")

@@ -3,9 +3,9 @@ from __future__ import annotations
 from typing import override, TYPE_CHECKING
 
 from moneymanager.controller.base_controller import BaseController
-from moneymanager.view.cli.cli_home_view import CliHomeView
-from moneymanager.exception import UserExit
 from moneymanager.exception import UserCancel
+from moneymanager.exception import UserExit
+from moneymanager.view.cli.cli_home_view import CliHomeView
 
 if TYPE_CHECKING:
     from moneymanager.app.app import App
@@ -21,7 +21,7 @@ class CliHomeController(BaseController):
         self._view.display_welcome()
 
         while True:
-            try: # Try
+            try:  # Try
                 option = self._view.prompt_menu()
                 match option:
                     case 1:  # Add expense
@@ -42,8 +42,8 @@ class CliHomeController(BaseController):
                         break
                     case _:
                         self._view.display_error("Invalid option")
-            except UserExit: # If user enter "exit", it will exit
+            except UserExit:  # If user enter "exit", it will exit
                 self._view.display_exit_message()
                 break
-            except UserCancel: # If user enter "cancel", it's invalid
+            except UserCancel:  # If user enter "cancel", it's invalid
                 self._view.display_error("Invalid option")
