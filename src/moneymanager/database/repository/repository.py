@@ -3,8 +3,8 @@ from typing import Protocol
 from moneymanager.database.model.model import Model
 
 
-class Repository[ID](Protocol):
-    def select(self, identifier: ID) -> Model[ID]:
+class Repository[T: Model, ID](Protocol):
+    def select(self, identifier: ID) -> T:
         """Selects an entry from the database.
 
         Parameters
@@ -24,7 +24,7 @@ class Repository[ID](Protocol):
         """
         ...
 
-    def insert(self, entity: Model[ID]) -> None:
+    def insert(self, entity: ID) -> None:
         """Inserts a new entry into the database.
 
         Parameters
@@ -39,7 +39,7 @@ class Repository[ID](Protocol):
         """
         ...
 
-    def update(self, identifier: ID, entity: Model[ID]) -> None:
+    def update(self, identifier: ID, entity: T) -> None:
         """Updates an entry in the database.
 
         Parameters
@@ -71,7 +71,7 @@ class Repository[ID](Protocol):
         """
         ...
 
-    def select_all(self) -> list[Model[ID]]:
+    def select_all(self) -> list[T]:
         """Selects all entries from the database.
 
         Returns

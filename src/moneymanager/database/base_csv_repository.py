@@ -14,7 +14,7 @@ from moneymanager.database.model.model import Model
 from moneymanager.database.repository.repository import Repository
 
 
-class BaseCsvRepository[ID](ABC, Repository[ID]):
+class BaseCsvRepository[T: Model, ID](ABC, Repository[T, ID]):
     """Abstract base class of a CSV repository.
 
     Extend this class to create a concrete CSV repository. The concrete class should
@@ -31,7 +31,7 @@ class BaseCsvRepository[ID](ABC, Repository[ID]):
 
 
     @dataclass
-    class ConcreteModel(Model[str]):
+    class ConcreteModel(Model[int]):
         id: int
         col1: str
         col2: int
@@ -45,7 +45,7 @@ class BaseCsvRepository[ID](ABC, Repository[ID]):
             return "id"
 
 
-    class ConcreteCsvRepository(BaseCsvRepository):
+    class ConcreteCsvRepository(BaseCsvRepository[ConcreteModel, int]):
         @property
         def filename(self):
             return "concrete.csv"
@@ -86,11 +86,11 @@ class BaseCsvRepository[ID](ABC, Repository[ID]):
 
     @property
     @abstractmethod
-    def model(self) -> type[Model[ID]]:
+    def model(self) -> type[T]:
         """Model class of the repository."""
 
     @override
-    def select(self, identifier: ID) -> Model[ID]:
+    def select(self, identifier: ID) -> T:
         with self._enter_reader() as reader:
             for row in reader:
                 if row[self.model.primary_field()] == identifier:
@@ -146,7 +146,7 @@ class BaseCsvRepository[ID](ABC, Repository[ID]):
             raise ValueError(f"Model with key {identifier} is not found.")
 
     @override
-    def select_all(self) -> list[Model[ID]]:
+    def select_all(self) -> list[T]:
         with self._enter_reader() as reader:
             return [self.model(**row) for row in reader]  # type: ignore
 
