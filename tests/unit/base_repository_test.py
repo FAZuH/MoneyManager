@@ -31,11 +31,10 @@ class BaseRepositoryTest(ABC):
         assert os.path.exists(repo._csv_path)
 
     def test_write_and_read(self, repo):
-        with repo.enter_writer("w") as writer:
-            writer.writeheader()
+        with repo._enter_writer("w") as writer:
             writer.writerow(self.test_data)
 
-        with repo.enter_reader() as reader:
+        with repo._enter_reader() as reader:
             rows = list(reader)
             assert len(rows) == 1
             for key, value in self.test_data.items():
