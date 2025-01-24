@@ -60,7 +60,6 @@ class CliManageAccountController(BaseController):
 
         self._view.display_line_separator()
 
-        # TODO: handle invalid account
         try:  # Try exept for account with name (name) doesn't exist
             model = self._repository.select(name)
         except ValueError:

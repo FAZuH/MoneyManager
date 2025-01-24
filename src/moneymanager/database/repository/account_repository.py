@@ -4,7 +4,7 @@ from moneymanager.database.base_csv_repository import BaseCsvRepository
 from moneymanager.database.model.account import Account
 
 
-class AccountRepository(BaseCsvRepository):
+class AccountRepository(BaseCsvRepository[Account, str]):
     @property
     @override
     def filename(self) -> str:
